@@ -1,5 +1,6 @@
 package com.example.springboot_application
 
+import android.content.Intent
 import android.os.Bundle
 
 import android.widget.Button
@@ -60,8 +61,7 @@ class register : AppCompatActivity() {
             return
         }
 
-        val call: Call<ResponseBody> =
-            RetrofitClient.getInstance().api.createUser(User(userName, password))
+        val call: Call<ResponseBody> = RetrofitClient.getInstance().api.createUser(User(userName, password))
 
         call.enqueue(object : Callback<ResponseBody?> {
             override fun onResponse(call: Call<ResponseBody?>?, response: Response<ResponseBody?>) {
@@ -71,11 +71,25 @@ class register : AppCompatActivity() {
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
+                if (s == "SUCCESS") {
+                    Toast.makeText(
+                        this@register,
+                        "Successfully registered. Please login",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    startActivity(Intent(this@register, login::class.java))
+                } else {
+                    Toast.makeText(this@register, "User already exists!", Toast.LENGTH_LONG)
+                        .show()
+                }
 
+//
             }
 
+
             override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                TODO("Not yet implemented")
+
+                Toast.makeText(this@register, t.message, Toast.LENGTH_LONG).show()
             }
 
 
