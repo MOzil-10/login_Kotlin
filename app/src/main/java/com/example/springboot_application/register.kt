@@ -5,6 +5,7 @@ import android.os.Bundle
 
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
@@ -16,7 +17,8 @@ import java.io.IOException
 
 class register : AppCompatActivity() {
 
-    //we use lateinit to initialized the variable
+    //These lines declare three lateinit properties(etUsername, etPassword, btnRegister) of types EditText and Button.
+    // They will be initialized later in the onCreate method.
 
     lateinit var etUsername: EditText
     lateinit var etPassword: EditText
@@ -40,10 +42,13 @@ class register : AppCompatActivity() {
         //this function will make the button clickable
         btnRegister.setOnClickListener {
 
-
             //inside here we tell the function what to do
             //Toast.makeText(this, "Has been registered", Toast.LENGTH_SHORT).show();
             registerUser()
+        }
+
+        this.findViewById<TextView>(R.id.tvLoginLink).setOnClickListener{
+            startActivity(Intent(this, login::class.java))
         }
 
     }
@@ -51,6 +56,8 @@ class register : AppCompatActivity() {
     private fun registerUser() {
         val userName: String = etUsername.getText().toString().trim()
         val password: String = etPassword.getText().toString().trim()
+
+        // Validation checks for empty username and password
         if (userName.isEmpty()) {
             etUsername.setError("Username is required")
             etUsername.requestFocus()
@@ -61,9 +68,13 @@ class register : AppCompatActivity() {
             return
         }
 
+
+        // Create a Retrofit API call to register the user
         val call: Call<ResponseBody> = RetrofitClient.getInstance().api.createUser(User(userName, password))
 
         call.enqueue(object : Callback<ResponseBody?> {
+
+            // Callback for response handling
             override fun onResponse(call: Call<ResponseBody?>?, response: Response<ResponseBody?>) {
                 var s = ""
                 try {
