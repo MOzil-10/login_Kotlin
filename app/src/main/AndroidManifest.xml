@@ -19,11 +19,11 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".Dashboard"
-            android:exported="false" >
+            android:exported="true" >
 
         </activity>
         <activity
-            android:name=".login"
+            android:name=".Login"
             android:exported="false" />
         <activity
             android:name=".register"

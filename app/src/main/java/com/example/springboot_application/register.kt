@@ -48,7 +48,7 @@ class register : AppCompatActivity() {
         }
 
         this.findViewById<TextView>(R.id.tvLoginLink).setOnClickListener{
-            startActivity(Intent(this, login::class.java))
+            startActivity(Intent(this, Login::class.java))
         }
 
     }
@@ -88,7 +88,7 @@ class register : AppCompatActivity() {
                         "Successfully registered. Please login",
                         Toast.LENGTH_LONG
                     ).show()
-                    startActivity(Intent(this@register, login::class.java))
+                    startActivity(Intent(this@register, Login::class.java))
                 } else {
                     Toast.makeText(this@register, "User already exists!", Toast.LENGTH_LONG)
                         .show()
